@@ -1,4 +1,6 @@
 <IfModule mod_rewrite.c>
     RewriteEngine on
+    ## Uncomment and modify this if you are not at the root of a domain
+    # RewriteBase "/path/to/site/root"
     RewriteRule ^(.*)$ index.php?page=$1 [NC,L,QSA]
 </IfModule>
