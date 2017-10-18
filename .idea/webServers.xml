@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="f00fff45-b648-4c55-822b-bfd079d0d7db" name="zenfone-server" url="http://192.168.43.1/comp2121/proj">
+        <fileTransfer host="192.168.43.1" port="22" rootFolder="/var/www/comp2121/proj" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+      <webServer id="372c3764-fb1b-479f-b12a-0732e5cba921" name="wamp" url="http://localhost/comp2121/proj">
+        <fileTransfer port="0" mountedRoot="C:\wamp64\www\comp2121\proj" accessType="MOUNT" />
+      </webServer>
+    </option>
+  </component>
+</project>
