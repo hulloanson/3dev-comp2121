@@ -15,14 +15,11 @@ define('APP_ROOT', __DIR__);
 
 require_once APP_ROOT . '/system/load.php';
 
-require_once APP_ROOT . '/config/load.php';
-
-global $CONFIG;
-
-define('PAGE_DIR', path_join(APP_ROOT, $CONFIG['page_dir']));
+define('CONFIG', get_config());
+define('PAGE_DIR', CONFIG['system']['page_dir']);
 
 try {
-  require_once from_root('/layouts/header.php');
+  require_once app('/layouts/header.php');
 
   $page = page((isset($_REQUEST['page']) && $_REQUEST['page']
     ? $_REQUEST['page'] : 'home'));
@@ -31,7 +28,7 @@ try {
 
   require_once $page;
 
-  require_once APP_ROOT . '/layouts/footer.php';
+  require_once app('layouts/footer.php');
 
 } catch (\Exception $e) {
   var_export($e->getTraceAsString());

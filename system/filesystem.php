@@ -1,5 +1,5 @@
 <?php
-function from_root($path) {
+function app($path) {
   return path_join(APP_ROOT, $path);
 }
 
