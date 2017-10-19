@@ -4,31 +4,35 @@
  * Date: 18/10/2017
  * Time: 7:00 PM
  */
+//phpinfo();
+//exit;
+
 define('DEBUG', true);
-if (DEBUG) {
+if (!DEBUG) {
   error_reporting(E_ERROR);
-  ini_set('error_reporting', E_ERROR);
+  ini_set('display_errors', 'Off');
 }
 
 /* App Router */
-define('APP_ROOT', __DIR__);
+
+require_once 'bootstrap.php';
+
+require_once APP_ROOT . '/config/load.php';
 
 require_once APP_ROOT . '/system/load.php';
 
-define('CONFIG', get_config());
-define('PAGE_DIR', CONFIG['system']['page_dir']);
-
 try {
-  require_once app('/layouts/header.php');
+  /**
+   * @var array $req An array representing a GET request.
+   * @var array $req[0] Page
+   * @var array $req[1] Action on the specified page
+   * @var array $req[2] Data on the action
+   */
+  $req = isset($_REQUEST['param']) ? explode('/', $_REQUEST['param']) : [];
 
-  $page = page((isset($_REQUEST['page']) && $_REQUEST['page']
-    ? $_REQUEST['page'] : 'home'));
-
-  if (!is_file($page)) $page = get_404();
-
-  require_once $page;
-
-  require_once app('layouts/footer.php');
+  $res = [];
+  (new View)->render();
+//  (new View)->render(empty($req) ? 'home' : $req[0]);
 
 } catch (\Exception $e) {
   var_export($e->getTraceAsString());

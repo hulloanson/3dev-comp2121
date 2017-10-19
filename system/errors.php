@@ -7,5 +7,5 @@
 
 function get_404() {
   http_response_code(404);
-  return page(get_config('system', '404_page'));
+  return APP_ROOT . '/pages/404.php';
 }

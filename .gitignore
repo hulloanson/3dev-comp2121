@@ -19,23 +19,6 @@
 
 .idea/
 # User-specific stuff:
-.idea/**/workspace.xml
-.idea/**/tasks.xml
-.idea/dictionaries
-
-# Sensitive or high-churn files:
-.idea/**/dataSources/
-.idea/**/dataSources.ids
-.idea/**/dataSources.xml
-.idea/**/dataSources.local.xml
-.idea/**/sqlDataSources.xml
-.idea/**/dynamic.xml
-.idea/**/uiDesigner.xml
-
-# Gradle:
-.idea/**/gradle.xml
-.idea/**/libraries
-
 # CMake
 cmake-build-debug/
 
@@ -174,4 +157,9 @@ Session.vim
 # Auto-generated tag files
 tags
 
-.htaccess
+# Commit .htaccess.dit instead
+/.htaccess
+
+# Exclude draft files from commits
+/test.php
+/test.html
