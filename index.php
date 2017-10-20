@@ -23,12 +23,14 @@ require_once APP_ROOT . '/system/load.php';
 
 try {
   /**
-   * @var array $req An array representing a GET request.
+   * @var array $req An array representing a GET request. Supposed to be global.
    * @var array $req[0] Page
    * @var array $req[1] Action on the specified page
    * @var array $req[2] Data on the action
    */
   $req = isset($_REQUEST['param']) ? explode('/', $_REQUEST['param']) : [];
+
+  if (!empty($req) && $req[0] === 'api') handle_ajax();
 
   $res = [];
   (new View)->render();
