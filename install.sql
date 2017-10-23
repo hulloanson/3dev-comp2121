@@ -1,28 +1,49 @@
-drop database if exists `snacks`;
-create database if not exists `snacks`;
-use `snacks`;
+DROP DATABASE IF EXISTS `snacks`;
+CREATE DATABASE IF NOT EXISTS `snacks`;
+USE `snacks`;
 
-create table if not exists `user` (
-  `id` int unique primary key auto_increment not null,
-  `password` varchar(255) not null,
-  `email` varchar(255) not null
-)ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS `user` (
+  `id`       INT UNIQUE PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  `password` VARCHAR(255)                          NOT NULL,
+  `email`    VARCHAR(255)                          NOT NULL
+)
+  ENGINE = InnoDB;
 
-create table if not exists `user_meta` (
-  `user_id` int not null,
-  `key` varchar(50) not null,
-  `value` varchar(255) not null,
-  `created` timestamp default CURRENT_TIMESTAMP not null,
-  `updated` timestamp default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP not null,
+CREATE TABLE IF NOT EXISTS `user_meta` (
+  `user_id` INT                                                             NOT NULL,
+  `key`     VARCHAR(50)                                                     NOT NULL,
+  `value`   VARCHAR(255)                                                    NOT NULL,
+  `created` TIMESTAMP DEFAULT CURRENT_TIMESTAMP                             NOT NULL,
+  `updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
+
+  FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+)
+  ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `products` (
+  `id`    INT PRIMARY KEY UNIQUE AUTO_INCREMENT NOT NULL,
+  `name`  VARCHAR(255)    NOT NULL,
+  `cost`  DECIMAL(18, 8)  NOT NULL,
+  `price` DECIMAL(18, 8)  NOT NULL,
+  `desc`  TEXT,
+  `deleted` TINYINT default 0 not null
+)
+  ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `shopping_cart` (
+  `user_id`    INT NOT NULL,
+  `product_id` INT NOT NULL,
+  `qty` INT NOT NULL,
   
-  foreign key (`user_id`) references `user` (`id`) on update cascade on delete cascade
-)ENGINE=InnoDB;
-
-create table if not exists `products` (
-  `id` int primary key not null,
-  `name` varchar(255) not null,
-  `cost` decimal(18, 8) not null,
-  `price` decimal(18, 8) not null,
-  `desc` text
-)ENGINE=InnoDB;
+  PRIMARY KEY (`user_id`, `product_id`),
+  FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
+  FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+)
+  ENGINE = InnoDB;
 

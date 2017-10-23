@@ -1,0 +1,14 @@
+{
+  "name": "ycl/comp2121-proj",
+  "require": {
+  },
+  "authors": [
+    {
+      "name": "hulloanson",
+      "email": "hulloanson@gmail.com"
+    }
+  ],
+  "require-dev": {
+    "phpunit/phpunit": "^5.7"
+  }
+}
