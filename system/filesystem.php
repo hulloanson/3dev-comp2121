@@ -14,8 +14,11 @@ function path_join(...$paths) {
  * @internal param string $path A relative path starting from app root, leading slash or not
  */
 function app(...$paths) {
-//  return path_join(APP_ROOT, $paths);
   return call_user_func_array('path_join', array_merge([APP_ROOT], $paths));
+}
+
+function web(...$paths) {
+  return call_user_func_array('path_join', array_merge([WEB_ROOT], $paths));
 }
 
 /**
@@ -30,10 +33,15 @@ function page($page_name) {
 
 function script($script) {
   $script_path = path_join(get_config('view', 'script_dir'), "${script}.js");
-  return is_file($script_path) ? $script_path : '';
+  return is_file(app($script_path)) ? web($script_path) : '';
 }
 
 function style($style) {
-  $style_path = path_join(get_config('view', 'style_dir'), "${style}.css");
-  return is_file($style_path) ? $style_path : '';
+  $style_path = path_join('/', get_config('view', 'style_dir'), "${style}.css");
+  return is_file(app($style_path)) ? web($style_path) : '';
+}
+
+function image($image) {
+  $image_path = path_join('/', get_config('view', 'image_dir'), "${image}");
+  return is_file(app($image_path)) ? web($image_path) : '';
 }

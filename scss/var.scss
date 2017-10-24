@@ -1,0 +1,11 @@
+$header-height: 48px;
+
+/** Layout variables */
+$container-padding-x: 25px;
+$container-padding-y: 15px;
+
+/** Product page vars */
+$product-image-height: 250px;
+$action-bar-height: 65px;
+$action-bar-border: 1px solid lightgrey;
+$product-head-height: $action-bar-height + $product-image-height;

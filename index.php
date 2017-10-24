@@ -14,7 +14,7 @@ if (!DEBUG) {
 }
 
 /* App Router */
-
+require_once 'bootstrap_webroot.php';
 require_once 'bootstrap.php';
 
 require_once APP_ROOT . '/config/load.php';
@@ -29,7 +29,6 @@ try {
    * @var array $req[2] Data on the action
    */
   $req = isset($_REQUEST['param']) ? explode('/', $_REQUEST['param']) : [];
-
   $res = [];
   (new View)->render();
 //  (new View)->render(empty($req) ? 'home' : $req[0]);
