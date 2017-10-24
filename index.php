@@ -29,7 +29,6 @@ try {
    * @var array $req[2] Data on the action
    */
   $req = isset($_REQUEST['param']) ? explode('/', $_REQUEST['param']) : [];
-
   $res = [];
   (new View)->render();
 //  (new View)->render(empty($req) ? 'home' : $req[0]);

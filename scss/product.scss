@@ -1,0 +1,9 @@
+@import 'var';
+.head-image {
+  position: fixed;
+  top: $header-height;
+  left: 0;
+  right: 0;
+  height: 150px;
+  background: white;
+}
