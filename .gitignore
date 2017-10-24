@@ -228,3 +228,6 @@ GitHub.sublime-settings
 
 .htaccess
 /test.*
+/css/*
+!/css/font-awesome.css
+!/css/font-config.css

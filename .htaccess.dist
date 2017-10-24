@@ -1,10 +1,10 @@
 <IfModule mod_rewrite.c>
     RewriteEngine on
     ## Uncomment and modify this if you are not at the root of a domain
-    # RewriteBase "/path/to/site/root"
+     RewriteBase "/path/to/site/root"
     # Also replace the path in RewriteCond
     # For development
     RewriteCond %{REQUEST_URI} !^/path/to/site/root/test\.(php|html)
-    RewriteCond %{REQUEST_URI} !^/path/to/site/root/(css|js|imgs)/.*
-    RewriteRule ^(.*)$ index.php?page=$1 [NC,L,QSA]
+    RewriteCond %{REQUEST_URI} !^/path/to/site/root/(css|js|imgs|fonts)/.*
+    RewriteRule ^(.*)$ index.php?param=$1 [NC,L,QSA]
 </IfModule>
