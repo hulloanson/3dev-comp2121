@@ -4,7 +4,7 @@
  * Date: 21/10/2017
  * Time: 1:44 AM
  */
-// TODO: class Model: add soft delete support
+
 class Model
 {
   protected $data = [];
