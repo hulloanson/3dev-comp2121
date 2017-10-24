@@ -9,3 +9,7 @@ function get_404() {
   http_response_code(404);
   return APP_ROOT . '/pages/404.php';
 }
+
+function exception_handler(\Exception $e) {
+  // TODO: devise internal error codes / info standard and implement exception handler
+}

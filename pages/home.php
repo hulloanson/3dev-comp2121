@@ -1,19 +1,20 @@
 <?php
-enqueue_style('style', 'all');
-enqueue_script('home');
+enqueue_style( 'style', 'all' );
+enqueue_script( 'home' );
 ?>
 This is the home page. Testing PDOHelper too.
 <pre>
 <?php
-try {
-  \PDOHelper::exec('INSERT INTO `snacks`.`user` (password, email) VALUES (:pw, :email)', [
-      ':pw' => password_hash('shit', PASSWORD_DEFAULT),
-      ':email' => 'test@gmail.com'
-  ]);
-  var_dump(\PDOHelper::fetch('select * from `snacks`.user;'));
-} catch(\Exception $e) {
-  var_dump($e);
-}
+$user           = new User;
+$user->email    = 'shit@gmail.com';
+$user->password = 'shit';
+var_dump($user->save());
+$user2 = new User;
+$user2->email = 'shit@gmail.com';
+$user2->password = 'oi';
+var_dump($user2->save());
+//$user->id = $id;
+//$user->email = 'hoho@gmail.com';
 ?>
 </pre>
 

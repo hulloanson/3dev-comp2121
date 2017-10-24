@@ -15,14 +15,14 @@ class PDOHelper
     else
       $result = $pdo->prepare($statement)->execute($args);
     if ($result === false)
-      throw new \Exception('Error: ' . $pdo->errorCode());
+      throw new \Exception(var_export($pdo->errorInfo(), true));
   }
 
   public static function fetch($statement, $args = [])
   {
     $pdo = self::get_pdo();
     if (empty($args)) {
-      $result = $pdo->query($statement, PDO::FETCH_ASSOC)->fetch(PDO::FETCH_ASSOC);
+      $result = $pdo->query($statement, PDO::FETCH_ASSOC)->fetchAll(PDO::FETCH_ASSOC);
     } else {
       $stmt = $pdo->prepare($statement);
 //      foreach ($args as $name => $arg) {
@@ -31,7 +31,7 @@ class PDOHelper
       $result = $stmt->execute($args);
       if ($result === false)
         throw new \Exception('Error: ' . var_export($pdo->errorCode(), true));
-      $result = $stmt->fetch(PDO::FETCH_ASSOC);
+      $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     if ($result === false)
       throw new \Exception('Error: ' . var_export($pdo->errorCode(), true));

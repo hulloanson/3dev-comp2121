@@ -35,6 +35,7 @@ try {
 //  (new View)->render(empty($req) ? 'home' : $req[0]);
 
 } catch (\Exception $e) {
-  var_export($e->getTraceAsString());
+//  var_export($e->getTraceAsString());
+  throw $e;
 }
 
