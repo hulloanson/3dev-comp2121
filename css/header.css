@@ -1,0 +1,17 @@
+/** Layout variables */
+/** Product page vars */
+header {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  position: fixed;
+  z-index: 10;
+  background-color: white;
+  display: flex;
+  align-items: center; }
+  header .title {
+    flex-grow: 1;
+    margin: 0;
+    padding: 0;
+    text-align: center; }

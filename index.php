@@ -14,7 +14,7 @@ if (!DEBUG) {
 }
 
 /* App Router */
-
+require_once 'bootstrap_webroot.php';
 require_once 'bootstrap.php';
 
 require_once APP_ROOT . '/config/load.php';
