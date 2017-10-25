@@ -30,6 +30,8 @@ try {
    */
   $req = isset($_REQUEST['param']) ? explode('/', $_REQUEST['param']) : [];
 
+  $pdo = null;
+
   $res = [];
   (new View)->render();
 //  (new View)->render(empty($req) ? 'home' : $req[0]);

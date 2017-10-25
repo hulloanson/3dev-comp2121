@@ -15,6 +15,14 @@ class Model
 
   protected static $props = [];
 
+  public function __construct($props = [])
+  {
+    if (empty($props)) return;
+    foreach($props as $col => $value) {
+      $this->$col = $value;
+    }
+  }
+
   public function __get($name) {
     if (!isset($this->data[$name])) return null;
     else return $this->data[$name];
@@ -56,18 +64,22 @@ class Model
     return 0;
   }
 
+  public static function create_and_save_many($items) {
+    if (empty($items)) throw new \Exception('Attempted to create items from empty array');
+    foreach($items as $item) {
+      $obj = new static($item);
+      $obj->save();
+    }
+  }
+
   public static function find($id) {
     $sql = 'select * from `' . self::get_table() . '` where ' . static::$id . ' = :id;';
     $result = PDOHelper::fetch($sql, [':id' => $id]);
     if (empty($result)) return null;
-    $obj = new static;
-    foreach($result[0] as $col => $value) {
-      $obj->$col = $value;
-    }
-    return $obj;
+    return new static($result);
   }
 
-  public static function search($where) {
+  public static function search($where, $one = false) {
     if ( !is_array($where) || empty($where)) throw new \Exception('Empty parameters in model search');
     $sql = 'select * from `' . self::get_table() . '` where ';
     $params = [];
@@ -79,17 +91,13 @@ class Model
       $sql .= " ${col} = ${place}";
       $params[$place] = $val;
     }
+    $sql .= ($one ? ' limit 1' : '');
     $sql .= ';';
-    if (empty($results = PDOHelper::fetch($sql, $params))) return $results;
-    $objs = [];
-    foreach($results as $result) {
-      $obj = new static;
-      foreach ($result as $col => $value) {
-        $obj->$col = $value;
-      }
-      array_push($objs, $obj);
-    }
-    return $objs;
+    if (empty($results = PDOHelper::fetch($sql, $params))) return null;
+    if ($one) return $results[0];
+    return array_map(function($result){
+      return new static($result);
+    }, $results);
   }
 
   protected static function get_table() {

@@ -48,3 +48,16 @@ CREATE TABLE IF NOT EXISTS `shopping_cart` (
 )
   ENGINE = InnoDB;
 
+CREATE TABLE IF NOT EXISTS `wish_list` (
+  `id`         INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  `user_id`    INT                            NOT NULL,
+  `product_id` INT                            NOT NULL,
+
+  FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
+  FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+)
+  ENGINE = InnoDB;

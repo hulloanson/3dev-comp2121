@@ -8,7 +8,7 @@
 class Auth
 {
   public function login($email, $password) {
-    if (($user = User::search([ 'email' => $email ]) === null)) return false;
+    if (($user = User::search([ 'email' => $email ], true) === null)) return false;
     return password_verify($password, $user->password) ? $user : false;
   }
 }
