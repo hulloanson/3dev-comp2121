@@ -24,8 +24,6 @@ class Model
   }
 
   public function __get($name) {
-    echo '__get-ing<br>';
-    var_dump($this->data);
     if (!isset($this->data[$name])) return null;
     return $this->data[$name];
   }
