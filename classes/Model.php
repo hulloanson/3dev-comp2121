@@ -66,12 +66,14 @@ class Model
     return 0;
   }
 
-  public static function create_and_save_many($items) {
+  public static function save_many($items) {
     if (empty($items)) throw new \Exception('Attempted to create items from empty array');
-    foreach($items as $item) {
-      $obj = new static($item);
-      $obj->save();
-    }
+    PDOHelper::transact(function() use ($items) {
+      foreach($items as $item) {
+        $obj = new static($item);
+        $obj->save();
+      }
+    });
   }
 
   public static function find($id) {

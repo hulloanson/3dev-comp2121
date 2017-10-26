@@ -25,14 +25,38 @@ CREATE TABLE IF NOT EXISTS `user_meta` (
 
 CREATE TABLE IF NOT EXISTS `product` (
   `id`      INT PRIMARY KEY UNIQUE AUTO_INCREMENT NOT NULL,
-  `code`    VARCHAR(20) not null,
+  `code`    VARCHAR(20)                           NOT NULL,
   `name`    VARCHAR(255)                          NOT NULL,
   `cost`    DECIMAL(18, 8)                        NOT NULL,
   `price`   DECIMAL(18, 8)                        NOT NULL,
+  `image`   VARCHAR(255),
   `desc`    TEXT,
   `deleted` TINYINT DEFAULT 0                     NOT NULL
 )
   ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `bundle` (
+  `id`         INT PRIMARY KEY UNIQUE AUTO_INCREMENT NOT NULL,
+  `price`      DECIMAL(18, 8)                        NOT NULL,
+  `discounted` DECIMAL(18, 8)                        NOT NULL,
+  `image`      VARCHAR(255),
+  `deleted`    TINYINT DEFAULT 0                     NOT NULL
+)
+  ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `bundle_item` (
+  `id`         INT PRIMARY KEY UNIQUE AUTO_INCREMENT NOT NULL,
+  `bundle_id`  INT                                   NOT NULL,
+  `product_id` INT                                   NOT NULL,
+  `qty`        INT                                   NOT NULL,
+
+  FOREIGN KEY (`bundle_id`) REFERENCES `bundle` (`id`)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
+  FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+);
 
 CREATE TABLE IF NOT EXISTS `shopping_cart` (
   `id`         INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
