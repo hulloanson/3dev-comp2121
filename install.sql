@@ -23,8 +23,9 @@ CREATE TABLE IF NOT EXISTS `user_meta` (
 )
   ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `products` (
+CREATE TABLE IF NOT EXISTS `product` (
   `id`      INT PRIMARY KEY UNIQUE AUTO_INCREMENT NOT NULL,
+  `code`    VARCHAR(20) not null,
   `name`    VARCHAR(255)                          NOT NULL,
   `cost`    DECIMAL(18, 8)                        NOT NULL,
   `price`   DECIMAL(18, 8)                        NOT NULL,
@@ -42,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `shopping_cart` (
   FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
     ON UPDATE CASCADE
     ON DELETE CASCADE,
-  FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
+  FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
     ON UPDATE CASCADE
     ON DELETE CASCADE
 )
@@ -56,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `wish_list` (
   FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
     ON UPDATE CASCADE
     ON DELETE CASCADE,
-  FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
+  FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
     ON UPDATE CASCADE
     ON DELETE CASCADE
 )

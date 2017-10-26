@@ -10,7 +10,7 @@
 define('DEBUG', true);
 if (!DEBUG) {
   error_reporting(E_ERROR);
-  ini_set('display_errors', 'Off');
+  ini_set('display_errors', 'On');
 }
 
 /* App Router */

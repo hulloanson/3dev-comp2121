@@ -22,7 +22,6 @@ class PDOHelper
   public static function exec($statement, $args = [])
   {
     $pdo = self::get_pdo();
-    var_dump('PDOHelper::exec: $pdo: ', $pdo);
     if (empty($args))
       $result = $pdo->exec($statement);
     else

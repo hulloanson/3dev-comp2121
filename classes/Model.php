@@ -24,8 +24,10 @@ class Model
   }
 
   public function __get($name) {
+    echo '__get-ing<br>';
+    var_dump($this->data);
     if (!isset($this->data[$name])) return null;
-    else return $this->data[$name];
+    return $this->data[$name];
   }
 
   public function __set($name, $value) {
@@ -76,7 +78,7 @@ class Model
     $sql = 'select * from `' . self::get_table() . '` where ' . static::$id . ' = :id;';
     $result = PDOHelper::fetch($sql, [':id' => $id]);
     if (empty($result)) return null;
-    return new static($result);
+    return new static($result[0]);
   }
 
   public static function search($where, $one = false) {
@@ -100,7 +102,7 @@ class Model
     }, $results);
   }
 
-  protected static function get_table() {
+  public static function get_table() {
     if (isset(static::$table) && static::$table) return static::$table;
     $class_name = static::class;
     $split = preg_split('/[A-Z]/', $class_name,  null,PREG_SPLIT_NO_EMPTY | PREG_SPLIT_OFFSET_CAPTURE);
