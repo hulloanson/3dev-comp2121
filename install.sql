@@ -9,6 +9,18 @@ CREATE TABLE IF NOT EXISTS `user` (
 )
   ENGINE = InnoDB;
 
+CREATE TABLE IF NOT EXISTS `session` (
+  `id`      VARCHAR(128) UNIQUE PRIMARY KEY NOT NULL,
+  `user_id` INT                             NOT NULL,
+  `expires` TIMESTAMP DEFAULT timestampadd(WEEK, 1, current_timestamp),
+
+  FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+  ON UPDATE CASCADE
+  ON DELETE CASCADE
+
+)
+  ENGINE = InnoDB;
+
 CREATE TABLE IF NOT EXISTS `user_meta` (
   `id`      INT PRIMARY KEY AUTO_INCREMENT                                  NOT NULL,
   `user_id` INT                                                             NOT NULL,
@@ -86,3 +98,33 @@ CREATE TABLE IF NOT EXISTS `wish_list` (
     ON DELETE CASCADE
 )
   ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `sales` (
+  `id`      INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  `user_id` INT                            NOT NULL,
+  `time`    TIMESTAMP DEFAULT current_timestamp,
+  `total`   DECIMAL(18, 8)                 NOT NULL,
+  `status`  INT                            NOT NULL, # not delivered - 1, delivered - 2, cancelled - 3
+
+  FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+)
+  ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `sales_item` (
+  `id`         INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  `sales_id`   INT                            NOT NULL,
+  `product_id` INT                            NOT NULL,
+  `qty`        INT                            NOT NULL,
+
+  FOREIGN KEY (`sales_id`) REFERENCES `sales` (`id`)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
+  FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+)
+  ENGINE = InnoDB;
+
+

@@ -15,6 +15,10 @@ class Model
 
   protected static $props = [];
 
+  protected static $has = [];
+
+  protected static $belongsTo = [];
+
   public function __construct($props = [])
   {
     if (empty($props)) return;
@@ -24,7 +28,19 @@ class Model
   }
 
   public function __get($name) {
-    if (!isset($this->data[$name])) return null;
+    if (!isset($this->data[$name])) {
+      // Search relationships
+      $has_key = $belongs_key = false;
+      if (!($has_key = isset(self::$has[$name])) && !($belongs_key = isset(self::$belongsTo[$name]))) {
+        return null;
+      } else if ($has_key) {
+        $has_class = self::$has[$has_key];
+        $has_class::search()
+      } else { // belongs_key !== false
+
+      }
+
+    }
     return $this->data[$name];
   }
 

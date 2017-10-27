@@ -11,4 +11,10 @@ class Auth
     if (($user = User::search([ 'email' => $email ], true) === null)) return false;
     return password_verify($password, $user->password) ? $user : false;
   }
+
+  public function session_login($session_id) {
+    if (($session = Session::find($session_id)) === null)
+      return false;
+    return $session->user;
+  }
 }
