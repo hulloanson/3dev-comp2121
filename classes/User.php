@@ -5,6 +5,11 @@ class User extends Model
   protected $cart = [];
   protected $wishlist = [];
 
+  protected $hasMany  = [
+    'sales' => 'Sales',
+    'cart' => 'ShoppingCart'
+  ];
+
   public function __set($name, $value)
   {
     if ($name === 'password') $value = password_hash($value, PASSWORD_DEFAULT);

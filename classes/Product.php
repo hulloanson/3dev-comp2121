@@ -7,5 +7,15 @@
 
 class Product extends Model
 {
+  protected static $has_many = [
+    'tags' => 'ProductTag',
+  ];
 
+  public function add_tag($tag) {
+    if ($this->id === null) throw new \Exception('Adding tag before saving product is not allowed.');
+    (new ProductTag([
+      'product_id' => $this->id,
+      'tag' => $tag
+    ]))->save();
+  }
 }

@@ -5,7 +5,9 @@
  * Time: 7:15 PM
  */
 
-class Bundle
+class Bundle extends Product
 {
-
+  protected static $has_many = [
+    'items' => 'BundleItem'
+  ];
 }

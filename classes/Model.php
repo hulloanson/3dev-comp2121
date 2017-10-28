@@ -15,9 +15,9 @@ class Model
 
   protected static $props = [];
 
-  protected static $has = [];
+  protected static $has_many = [];
 
-  protected static $belongsTo = [];
+  protected static $belongs_to = [];
 
   public function __construct($props = [])
   {
@@ -30,14 +30,17 @@ class Model
   public function __get($name) {
     if (!isset($this->data[$name])) {
       // Search relationships
-      $has_key = $belongs_key = false;
-      if (!($has_key = isset(self::$has[$name])) && !($belongs_key = isset(self::$belongsTo[$name]))) {
+      $has_many_key = $belongs_key = false;
+      if (!($has_many_key = isset(static::$has_many[$name])) && !($belongs_key = isset(static::$belongs_to[$name]))) {
         return null;
-      } else if ($has_key) {
-        $has_class = self::$has[$has_key];
-        $has_class::search()
-      } else { // belongs_key !== false
-
+      } else if ($has_many_key) {
+        $self_table = static::get_table();
+        $has_class = static::$has_many[$has_many_key];
+        return $has_class::search([ "${$self_table}_id" => $this->id ]);
+      } else { // $belongs_key
+        $belongs_class = static::$belongs_to[$belongs_key];
+        $class_table = $belongs_class::get_table();
+        return $belongs_class::find($this->{"${class_table}_id"});
       }
 
     }
@@ -91,8 +94,9 @@ class Model
   }
 
   public static function find($id) {
+    if (($parsed_id = intval($id)) === 0) throw new \Exception("Invalid id value ${id} passed to find() function.");
     $sql = 'select * from `' . self::get_table() . '` where ' . static::$id . ' = :id;';
-    $result = PDOHelper::fetch($sql, [':id' => $id]);
+    $result = PDOHelper::fetch($sql, [':id' => $parsed_id]);
     if (empty($result)) return null;
     return new static($result[0]);
   }
