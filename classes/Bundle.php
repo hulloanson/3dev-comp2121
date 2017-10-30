@@ -7,7 +7,7 @@
 
 class Bundle extends Product
 {
-  protected static $has_many = [
+  public static $has_many = [
     'items' => 'BundleItem'
   ];
 }

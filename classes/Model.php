@@ -15,9 +15,9 @@ class Model
 
   protected static $props = [];
 
-  protected static $has_many = [];
+  public static $has_many = [];
 
-  protected static $belongs_to = [];
+  public static $belongs_to = [];
 
   public function __construct($props = [])
   {
@@ -30,19 +30,18 @@ class Model
   public function __get($name) {
     if (!isset($this->data[$name])) {
       // Search relationships
-      $has_many_key = $belongs_key = false;
-      if (!($has_many_key = isset(static::$has_many[$name])) && !($belongs_key = isset(static::$belongs_to[$name]))) {
+      $in_has_many = $in_belongs_to = false;
+      if (!($in_has_many = isset(static::$has_many[$name])) && !($in_belongs_to = isset(static::$belongs_to[$name]))) {
         return null;
-      } else if ($has_many_key) {
+      } else if ($in_has_many) {
         $self_table = static::get_table();
-        $has_class = static::$has_many[$has_many_key];
-        return $has_class::search([ "${$self_table}_id" => $this->id ]);
-      } else { // $belongs_key
-        $belongs_class = static::$belongs_to[$belongs_key];
+        $has_class = static::$has_many[$name];
+        return $has_class::search([ "${self_table}_id" => $this->id ]);
+      } else { // $in_belongs_to
+        $belongs_class = static::$belongs_to[$name];
         $class_table = $belongs_class::get_table();
         return $belongs_class::find($this->{"${class_table}_id"});
       }
-
     }
     return $this->data[$name];
   }
@@ -67,7 +66,7 @@ class Model
         $cols .= ',';
         $vals .= ',';
       }
-      $cols .= $prop;
+      $cols .= "`$prop`";
       $place = ":${prop}";
       $vals .= $place;
       $params[$place] = $value;

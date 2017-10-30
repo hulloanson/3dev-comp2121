@@ -5,7 +5,7 @@ class User extends Model
   protected $cart = [];
   protected $wishlist = [];
 
-  protected $hasMany  = [
+  public static $has_many = [
     'sales' => 'Sales',
     'cart' => 'ShoppingCart'
   ];

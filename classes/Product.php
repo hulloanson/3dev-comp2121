@@ -7,7 +7,7 @@
 
 class Product extends Model
 {
-  protected static $has_many = [
+  public static $has_many = [
     'tags' => 'ProductTag',
   ];
 

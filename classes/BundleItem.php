@@ -7,7 +7,7 @@
 
 class BundleItem extends Model
 {
-  protected static $belongs_to = [
+  public static $belongs_to = [
     'bundle' => 'Bundle'
   ];
 }

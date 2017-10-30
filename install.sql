@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 CREATE TABLE IF NOT EXISTS `session` (
   `id`      VARCHAR(128) UNIQUE PRIMARY KEY NOT NULL,
   `user_id` INT                             NOT NULL,
-  `expires` TIMESTAMP DEFAULT timestampadd(WEEK, 1, current_timestamp),
+  `started` TIMESTAMP DEFAULT current_timestamp,
 
   FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
   ON UPDATE CASCADE

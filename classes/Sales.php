@@ -7,11 +7,11 @@
 
 class Sales extends Model
 {
-  protected static $belongs_to = [
+  public static $belongs_to = [
     'user' => 'User'
   ];
 
-  protected static $has_many = [
+  public static $has_many = [
     'items' => 'SalesItem'
   ];
 }

@@ -7,5 +7,7 @@
 
 class WishList extends Model
 {
-
+  public static $belongs_to = [
+    'user' => 'User'
+  ];
 }

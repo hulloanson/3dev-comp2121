@@ -27,7 +27,7 @@ class PDOHelper
     else
       $result = $pdo->prepare($statement)->execute($args);
     if ($result === false)
-      throw new \Exception(var_export($pdo->errorInfo(), true));
+      throw new \Exception(var_export($pdo->errorCode(), true));
   }
 
   public static function fetch($statement, $args = [])
@@ -59,6 +59,7 @@ class PDOHelper
         $db_info['user'], $db_info['password']
       );
     }
+    $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
     return $pdo;
   }
 }

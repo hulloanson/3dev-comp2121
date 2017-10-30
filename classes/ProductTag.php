@@ -7,7 +7,7 @@
 
 class ProductTag extends Model
 {
-  protected static $belongs_to = [
+  public static $belongs_to = [
     'product' => 'Product'
   ];
 }
