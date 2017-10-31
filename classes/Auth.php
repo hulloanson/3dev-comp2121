@@ -7,12 +7,12 @@
 
 class Auth
 {
-  public function login($email, $password) {
+  public static function login($email, $password) {
     if (($user = User::search([ 'email' => $email ], true) === null)) return false;
     return password_verify($password, $user->password) ? $user : false;
   }
 
-  public function session_login($session_id) {
+  public static function session_login($session_id) {
     if (($session = Session::find($session_id)) === null)
       return false;
     return $session->user;

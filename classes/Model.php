@@ -7,6 +7,10 @@
 // TODO: class Model: add soft delete support
 class Model
 {
+  const STYLE_OBJ = 0;
+
+  const STYLE_ARRAY = 1;
+
   protected $data = [];
 
   protected static $table;
@@ -19,12 +23,15 @@ class Model
 
   public static $belongs_to = [];
 
+  protected $exists = false;
+
   public function __construct($props = [])
   {
     if (empty($props)) return;
     foreach($props as $col => $value) {
       $this->$col = $value;
     }
+    $this->exists = $this->id !== null;
   }
 
   public function __get($name) {
@@ -75,11 +82,15 @@ class Model
     $vals .= ')';
     $sql = 'replace `' . self::get_table() . "` ${cols} values ${vals};";
     PDOHelper::exec($sql, $params);
-    if (!$this->id) {
-      $this->id = intval( PDOHelper::get_pdo()->lastInsertId() );
-      return $this->id;
+    // Refresh the instance
+    $new_props = static::find(PDOHelper::get_pdo()->lastInsertId(), self::STYLE_ARRAY);
+    $this->update($new_props);
+  }
+
+  public function update($props) {
+    foreach ($props as $prop => $value) {
+      $this->$prop = $value;
     }
-    return 0;
   }
 
   public static function save_many($items) {
@@ -92,12 +103,13 @@ class Model
     });
   }
 
-  public static function find($id) {
-    if (($parsed_id = intval($id)) === 0) throw new \Exception("Invalid id value ${id} passed to find() function.");
+  public static function find($id, $style = self::STYLE_OBJ) {
+//    if (($parsed_id = intval($id)) === 0) throw new \Exception("Invalid id value ${id} passed to find() function.");
     $sql = 'select * from `' . self::get_table() . '` where ' . static::$id . ' = :id;';
-    $result = PDOHelper::fetch($sql, [':id' => $parsed_id]);
+    $result = PDOHelper::fetch($sql, [':id' => $id]);
     if (empty($result)) return null;
-    return new static($result[0]);
+    if ($style === self::STYLE_ARRAY) return $result[0];
+    else return new static($result[0]);
   }
 
   public static function search($where, $one = false) {
@@ -133,4 +145,5 @@ class Model
     }
     return $result;
   }
+
 }
