@@ -24,7 +24,6 @@ class View
     ob_end_clean();
     $this->style_tags();
     $this->script_tags();
-//    var_dump($this->html_vars);
   }
 
   public function render()
@@ -34,19 +33,13 @@ class View
     extract($this->html_vars);
     // Prep page
     include app('layouts/header.php');
-
     echo $this->page_content;
     include app('layouts/footer.php');
-//    $content = ob_get_contents();
-//    ob_end_clean();
-//    return $content;
-//    ob_flush();
   }
   
   protected function script_tags() {
     global $res;
     if (!isset($res['scripts'])) return;
-//    var_export($res['scripts']);
     foreach ($res['scripts'] as $script) {
       $this->html_vars['scripts'] .= "<script src='${script}' type='application/javascript'></script>";
     }

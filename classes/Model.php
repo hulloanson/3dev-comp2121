@@ -4,9 +4,13 @@
  * Date: 21/10/2017
  * Time: 1:44 AM
  */
-
+// TODO: class Model: add soft delete support
 class Model
 {
+  const STYLE_OBJ = 0;
+
+  const STYLE_ARRAY = 1;
+
   protected $data = [];
 
   protected static $table;
@@ -15,9 +19,38 @@ class Model
 
   protected static $props = [];
 
+  public static $has_many = [];
+
+  public static $belongs_to = [];
+
+  protected $exists = false;
+
+  public function __construct($props = [])
+  {
+    if (empty($props)) return;
+    foreach($props as $col => $value) {
+      $this->$col = $value;
+    }
+    $this->exists = $this->id !== null;
+  }
+
   public function __get($name) {
-    if (!isset($this->data[$name])) return null;
-    else return $this->data[$name];
+    if (!isset($this->data[$name])) {
+      // Search relationships
+      $in_has_many = $in_belongs_to = false;
+      if (!($in_has_many = isset(static::$has_many[$name])) && !($in_belongs_to = isset(static::$belongs_to[$name]))) {
+        return null;
+      } else if ($in_has_many) {
+        $self_table = static::get_table();
+        $has_class = static::$has_many[$name];
+        return $has_class::search([ "${self_table}_id" => $this->id ]);
+      } else { // $in_belongs_to
+        $belongs_class = static::$belongs_to[$name];
+        $class_table = $belongs_class::get_table();
+        return $belongs_class::find($this->{"${class_table}_id"});
+      }
+    }
+    return $this->data[$name];
   }
 
   public function __set($name, $value) {
@@ -40,7 +73,7 @@ class Model
         $cols .= ',';
         $vals .= ',';
       }
-      $cols .= $prop;
+      $cols .= "`$prop`";
       $place = ":${prop}";
       $vals .= $place;
       $params[$place] = $value;
@@ -49,25 +82,37 @@ class Model
     $vals .= ')';
     $sql = 'replace `' . self::get_table() . "` ${cols} values ${vals};";
     PDOHelper::exec($sql, $params);
-    if (!$this->id) {
-      $this->id = intval( PDOHelper::get_pdo()->lastInsertId() );
-      return $this->id;
-    }
-    return 0;
+    // Refresh the instance
+    $new_props = static::find(PDOHelper::get_pdo()->lastInsertId(), self::STYLE_ARRAY);
+    $this->update($new_props);
   }
 
-  public static function find($id) {
+  public function update($props) {
+    foreach ($props as $prop => $value) {
+      $this->$prop = $value;
+    }
+  }
+
+  public static function save_many($items) {
+    if (empty($items)) throw new \Exception('Attempted to create items from empty array');
+    PDOHelper::transact(function() use ($items) {
+      foreach($items as $item) {
+        $obj = new static($item);
+        $obj->save();
+      }
+    });
+  }
+
+  public static function find($id, $style = self::STYLE_OBJ) {
+//    if (($parsed_id = intval($id)) === 0) throw new \Exception("Invalid id value ${id} passed to find() function.");
     $sql = 'select * from `' . self::get_table() . '` where ' . static::$id . ' = :id;';
     $result = PDOHelper::fetch($sql, [':id' => $id]);
     if (empty($result)) return null;
-    $obj = new static;
-    foreach($result[0] as $col => $value) {
-      $obj->$col = $value;
-    }
-    return $obj;
+    if ($style === self::STYLE_ARRAY) return $result[0];
+    else return new static($result[0]);
   }
 
-  public static function search($where) {
+  public static function search($where, $one = false) {
     if ( !is_array($where) || empty($where)) throw new \Exception('Empty parameters in model search');
     $sql = 'select * from `' . self::get_table() . '` where ';
     $params = [];
@@ -79,20 +124,16 @@ class Model
       $sql .= " ${col} = ${place}";
       $params[$place] = $val;
     }
+    $sql .= ($one ? ' limit 1' : '');
     $sql .= ';';
-    if (empty($results = PDOHelper::fetch($sql, $params))) return $results;
-    $objs = [];
-    foreach($results as $result) {
-      $obj = new static;
-      foreach ($result as $col => $value) {
-        $obj->$col = $value;
-      }
-      array_push($objs, $obj);
-    }
-    return $objs;
+    if (empty($results = PDOHelper::fetch($sql, $params))) return null;
+    if ($one) return $results[0];
+    return array_map(function($result){
+      return new static($result);
+    }, $results);
   }
 
-  protected static function get_table() {
+  public static function get_table() {
     if (isset(static::$table) && static::$table) return static::$table;
     $class_name = static::class;
     $split = preg_split('/[A-Z]/', $class_name,  null,PREG_SPLIT_NO_EMPTY | PREG_SPLIT_OFFSET_CAPTURE);
@@ -104,4 +145,5 @@ class Model
     }
     return $result;
   }
+
 }

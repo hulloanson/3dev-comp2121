@@ -7,6 +7,18 @@
 
 class PDOHelper
 {
+  public static function transact(callable $callback) {
+    $pdo = self::get_pdo();
+    $pdo->beginTransaction();
+    try {
+      $callback();
+    } catch(\Exception $e) {
+      $pdo->rollBack();
+      throw $e;
+    }
+    $pdo->commit();
+  }
+
   public static function exec($statement, $args = [])
   {
     $pdo = self::get_pdo();
@@ -15,7 +27,7 @@ class PDOHelper
     else
       $result = $pdo->prepare($statement)->execute($args);
     if ($result === false)
-      throw new \Exception(var_export($pdo->errorInfo(), true));
+      throw new \Exception(var_export($pdo->errorCode(), true));
   }
 
   public static function fetch($statement, $args = [])
@@ -25,9 +37,6 @@ class PDOHelper
       $result = $pdo->query($statement, PDO::FETCH_ASSOC)->fetchAll(PDO::FETCH_ASSOC);
     } else {
       $stmt = $pdo->prepare($statement);
-//      foreach ($args as $name => $arg) {
-//        $stmt->bindValue($name, $arg);
-//      }
       $result = $stmt->execute($args);
       if ($result === false)
         throw new \Exception('Error: ' . var_export($pdo->errorCode(), true));
@@ -42,8 +51,15 @@ class PDOHelper
   {
     global $pdo;
     if (!$pdo instanceof PDO) {
-      $pdo = new PDO('mysql:dbname=snacks;host=localhost;', 'snacks', 'snacks');
+      $db_info = get_config('database');
+      $pdo = new PDO(
+        $db_info['driver'] . ':' .
+        'dbname=' . $db_info['database'] . ';' .
+        'host=' . $db_info['host'] . ';' ,
+        $db_info['user'], $db_info['password']
+      );
     }
+    $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
     return $pdo;
   }
 }

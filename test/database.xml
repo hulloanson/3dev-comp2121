@@ -1,0 +1,8 @@
+<phpunit bootstrap="bootstrap_tests.php">
+    <testsuites>
+        <testsuite name="base_classes">
+            <file>PDOHelperTest.php</file>
+            <file>ModelTest.php</file>
+        </testsuite>
+    </testsuites>
+</phpunit>
