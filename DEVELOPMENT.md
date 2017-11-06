@@ -19,6 +19,17 @@ and
 
     RewriteCond %{REQUEST_URI} !^/path/to/site/root/test\.(php|html)
     RewriteCond %{REQUEST_URI} !^/path/to/site/root/(css|js|imgs)/.*
+    
+### bootstrap_webroot.php
+Located at project root, this file is essential to generating resource url for browsers to consume.
+
+What you have to do with this file is essentially the same with .htaccess. Change:
+    
+    define('WEB_ROOT', '/comp2121/proj');
+    
+to whatever your site root happens to be from your domain root. e.g. for csdoor server:
+    
+    define('WEB_ROOT', '/~12345678X/comp2121/proj')
 
 ### Add a page
 Create a page in `/pages`
@@ -29,3 +40,5 @@ Create a page in `/pages`
     
 ### Access a page
 Go to `your_domain.com/path/to/site/root/if/any/hello-world`
+
+### Database
