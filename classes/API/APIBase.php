@@ -11,9 +11,4 @@ class APIBase
   function indexAction() {
     echo 'This is the parent API page. Please override.';
   }
-
-  function sthAction() {
-
-  }
-
 }

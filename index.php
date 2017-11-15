@@ -31,6 +31,9 @@ try {
    */
   $req = isset($_REQUEST['param']) ? preg_split('/\\//', $_REQUEST['param'], -1,  PREG_SPLIT_NO_EMPTY) : [];
   $res = [];
+  // Load user, if any
+  // TODO: load user as top-level object on start
+  $user = null;
   if (isset($req[0]) && strtolower($req[0]) == 'api') {
     (new APIHandler)->handle();
   } else {

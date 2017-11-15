@@ -8,15 +8,14 @@
 namespace API;
 
 
+use \User as User;
+
 class Login extends APIBase
 {
   function indexAction()
   {
-
+    // Find user
+    $login = $_POST['login'];
+    $password = $_POST['password'];
   }
-
-  function sthGoodAction() {
-    echo 'sth in login';
-  }
-
 }
