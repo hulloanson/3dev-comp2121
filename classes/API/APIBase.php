@@ -8,6 +8,7 @@ namespace API;
 
 class APIBase
 {
+  // TODO: redirect to 404 when action not found. Do the same with pages.
   function indexAction() {
     echo 'This is the parent API page. Please override.';
   }
