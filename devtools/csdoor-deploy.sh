@@ -1,0 +1,1 @@
+ssh-deploy.sh 14073582d@csdoor.comp.polyu.edu.hk /home/14073582d/public_html/comp2121/proj
