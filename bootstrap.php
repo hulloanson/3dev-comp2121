@@ -10,6 +10,6 @@ register_shutdown_function( function() {
 define('APP_ROOT', __DIR__);
 
 spl_autoload_register(function ($class) {
-  include "classes/${class}.php";
+  $class_path = preg_replace('/(\\\)/', '/', $class);
+  include_once "classes/${class_path}.php";
 });
-
