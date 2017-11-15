@@ -213,5 +213,3 @@ phpunit.phar
 !/css/font-awesome.css
 !/css/font-config.css
 
-/ssh-deploy.sh
-/csdoor-deploy.sh
