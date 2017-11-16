@@ -40,4 +40,6 @@ function enqueue_style(...$styles)
   }
 }
 
-
+//function redirect($url) {
+//  header("Location:")
+//}

@@ -22,16 +22,6 @@ class User extends Model
     }
   }
 
-  public static function login($email, $password) {
-    if (($user = self::search([ 'email' => $email ], true) === null)) return false;
-    return password_verify($password, $user->password) ? $user : false;
-  }
-
-  public static function session_login($session_id) {
-    if (($session = Session::find($session_id)) === null) return false;
-    return $session->user;
-  }
-
   public static function email_dup($email)
   {
     return !empty(self::search((['email' => $email])));
