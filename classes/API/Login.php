@@ -30,10 +30,7 @@ class Login extends APIBase
       if ($_SERVER['REQUEST_METHOD'] !== 'POST') throw new \Exception('wrong request method');
       $login = $_POST['login'];
       $password = $_POST['password'];
-      if (($user = User::login($login, $password)) === false) {
-        throw new \Exception('auth error');
-      }
+      Auth::login($login, $password);
     }
-
   }
 }
