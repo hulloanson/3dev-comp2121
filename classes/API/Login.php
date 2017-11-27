@@ -30,7 +30,6 @@ class Login extends APIBase
     } else {
       // Find user
 //      if ($_SERVER['REQUEST_METHOD'] !== 'POST') throw new \Exception('wrong request method');
-      if (!isset($_GET['login']) || !isset($_GET['password'])) throw new \Exception('missing parameters');
       $login = $_GET['login'];
       $password = $_GET['password'];
 //      $login = $_POST['login'];

@@ -7,6 +7,7 @@ This is the home page.
   <?php
   $session = Session::search(['user_id' => 1], true);
   $date_time = new \DateTime($session->started);
+  var_dump(;
   ?>
 </pre>
 
