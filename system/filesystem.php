@@ -21,6 +21,10 @@ function web(...$paths) {
   return call_user_func_array('path_join', array_merge([WEB_ROOT], $paths));
 }
 
+function public_url(...$paths) {
+  return $_SERVER['HTTP_HOST'] . web(...$paths);
+}
+
 /**
  * Get page path by name. Return 404 page if not found.
  * @param string $page_name Page name as listed in page_dir directory without the extension

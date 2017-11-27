@@ -7,4 +7,5 @@
 
 require_once 'errors.php';
 require_once 'filesystem.php';
+require_once 'res-helpers.php';
 require_once 'utils.php';

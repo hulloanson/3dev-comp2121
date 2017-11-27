@@ -72,17 +72,13 @@ class ModelTest extends TestCase
     global $test_models;
     $saved_ins = [];
     $error = false;
-    try {
       foreach ($test_models as $model => $values) {
         $id = $saved_ids[strtolower($model) . '_id'];
         $ins = $model::find($id);
-        if ($ins === null || intval($ins->id) !== $id)
-          throw new \Exception('Invalid instance');
+      if ($ins === null || $ins->id !== $id)
+        throw new \Exception("Invalid instance of ${model}, id " . var_export($id, true) . ':'. var_export($ins, true));
         $saved_ins[$model] = $ins;
       }
-    } catch (\Exception $e) {
-      $error = true;
-    }
     $this->assertNotTrue($error);
     return $saved_ins;
   }

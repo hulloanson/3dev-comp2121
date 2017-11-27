@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-## Usage: anson-deploy.sh host remote_dir [key]
+## Usage: anson-deploy.sh login remote_dir [key]
 function checkError() {
   if [[ ! $? -eq 0 ]]; then
     echo 'Shit happened'
@@ -30,6 +30,6 @@ lftp -c "${lftp_conn}""rm -rf ${archive_name}; put ${archive_name};"
 checkError
 echo 'Uploaded. Extracting content...'
 remote_dir_bak="${remote_dir}_bak"
-${ssh_conn} ${login} "set -x && if [[ -e ${remote_dir_bak} ]]; then rm -rf '${remote_dir_bak}'; fi; "\
+${ssh_conn} ${login} "if [[ -e ${remote_dir_bak} ]]; then rm -rf '${remote_dir_bak}'; fi; "\
 "if [[ -e ${remote_dir} ]]; then mv '${remote_dir}' '${remote_dir_bak}'; fi; "\
 "mkdir -p ${remote_dir} && tar --strip-components=1 -xf '${archive_name}' -C '${remote_dir}'"

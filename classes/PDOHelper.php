@@ -58,8 +58,9 @@ class PDOHelper
         'host=' . $db_info['host'] . ';' ,
         $db_info['user'], $db_info['password']
       );
-    }
     $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+      $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,true);
+    }
     return $pdo;
   }
 }
