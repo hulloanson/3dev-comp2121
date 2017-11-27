@@ -2,8 +2,6 @@
 
 class User extends Model
 {
-  protected $cart = [];
-  protected $wishlist = [];
 
   public static $has_many = [
     'sales' => 'Sales',

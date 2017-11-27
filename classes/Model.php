@@ -15,7 +15,7 @@ class Model
 
   protected static $table;
 
-  protected static $id = 'id';
+  protected static $id_name = 'id';
 
   protected static $props = [];
 
@@ -81,10 +81,13 @@ class Model
     $cols .= ')';
     $vals .= ')';
     $sql = 'replace `' . self::get_table() . "` ${cols} values ${vals};";
+    $id_known = $this->id !== null;
     PDOHelper::exec($sql, $params);
     // Refresh the instance
-    $new_props = static::find(PDOHelper::get_pdo()->lastInsertId(), self::STYLE_ARRAY);
+    $new_props = static::find($id_known ? $this->id : PDOHelper::get_pdo()->lastInsertId(), self::STYLE_ARRAY);
     $this->update($new_props);
+    $this->exists = true;
+    return $this->id;
   }
 
   public function update($props) {
@@ -105,7 +108,7 @@ class Model
 
   public static function find($id, $style = self::STYLE_OBJ) {
 //    if (($parsed_id = intval($id)) === 0) throw new \Exception("Invalid id value ${id} passed to find() function.");
-    $sql = 'select * from `' . self::get_table() . '` where ' . static::$id . ' = :id;';
+    $sql = 'select * from `' . self::get_table() . '` where ' . static::$id_name . ' = :id;';
     $result = PDOHelper::fetch($sql, [':id' => $id]);
     if (empty($result)) return null;
     if ($style === self::STYLE_ARRAY) return $result[0];
@@ -127,7 +130,7 @@ class Model
     $sql .= ($one ? ' limit 1' : '');
     $sql .= ';';
     if (empty($results = PDOHelper::fetch($sql, $params))) return null;
-    if ($one) return $results[0];
+    if ($one) return new static($results[0]);
     return array_map(function($result){
       return new static($result);
     }, $results);
