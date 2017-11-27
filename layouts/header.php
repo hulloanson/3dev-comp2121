@@ -1,3 +1,9 @@
+<?php
+global $user;
+$greetings = ($user === null ? '<a href="' . web('login') .'">Not logged in</a>' :
+    ($user->name ? 'Welcome, ' . $user->name . '!' : 'err: No Name')
+);
+?>
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -18,4 +24,6 @@
 <body>
 <header>
   <span class="title">Snacks in Time</span>
+  <span ><?= $greetings?></span>
 </header>
+<div class="snacks-content">

@@ -24,9 +24,8 @@ class Login extends APIBase
       echo 'Logged in! Welcome, ' . $user->name;
       return;
     } else if (isset($_COOKIE['SNACKSESS'])) {
-      Auth::session_login($_COOKIE['SNACKSESS']);
+      Auth::session_login();
       echo 'Welcome back, ' . $user->name;
-      return;
     } else {
       // Find user
 //      if ($_SERVER['REQUEST_METHOD'] !== 'POST') throw new \Exception('wrong request method');
@@ -37,5 +36,6 @@ class Login extends APIBase
       Auth::login($login, $password);
       echo 'Logged in! Hi, ' . $user->name;
     }
+    redirect('/');
   }
 }
