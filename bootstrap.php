@@ -16,4 +16,3 @@ spl_autoload_register(function ($class) {
   $class_path = preg_replace('/(\\\)/', '/', ucwords($class, '\\'));
   include_once "classes/${class_path}.php";
 });
-

@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS `session` (
   `started` TIMESTAMP DEFAULT current_timestamp,
 
   FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-  ON UPDATE CASCADE
-  ON DELETE CASCADE
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
 
 )
   ENGINE = InnoDB;
@@ -49,9 +49,9 @@ CREATE TABLE IF NOT EXISTS `product` (
   ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `product_tag` (
-  `id`      INT PRIMARY KEY UNIQUE AUTO_INCREMENT NOT NULL,
-  `product_id` int not null,
-  `tag` VARCHAR(60) not null,
+  `id`         INT PRIMARY KEY UNIQUE AUTO_INCREMENT NOT NULL,
+  `product_id` INT                                   NOT NULL,
+  `tag`        VARCHAR(60)                           NOT NULL,
   FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
     ON UPDATE CASCADE
     ON DELETE CASCADE

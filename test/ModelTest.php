@@ -99,7 +99,8 @@ class ModelTest extends TestCase
   /**
    * @depends test_fetch
    */
-  public function test_relation_fail($saved_ins) {
+  public function test_relation_fail($saved_ins)
+  {
     $session = $saved_ins['WishList']->session;
     $this->assertNull($session);
   }
@@ -107,7 +108,8 @@ class ModelTest extends TestCase
   /**
    * @depends test_fetch
    */
-  public function test_belongs_to($saved_ins) {
+  public function test_belongs_to($saved_ins)
+  {
     $user = $saved_ins['WishList']->user;
     $this->assertNotNull($user);
     $this->assertNotEmpty($user);
