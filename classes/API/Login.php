@@ -17,20 +17,26 @@ class Login extends APIBase
   {
     global $user;
     if (Auth::logged_in()) {
-//      http_redirect();
-      // TODO: decide what to do when logged inn
+      //
+      header('Location: ' . web('/'));
     }
     if ($user instanceof User) {
       echo 'Logged in! Welcome, ' . $user->name;
-      exit;
-    } else if (isset($_COOKIE['PHPSESSID']) && Auth::session_login($_COOKIE['PHPSESSID']))  {
-
+      return;
+    } else if (isset($_COOKIE['SNACKSESS'])) {
+      Auth::session_login($_COOKIE['SNACKSESS']);
+      echo 'Welcome back, ' . $user->name;
+      return;
     } else {
       // Find user
-      if ($_SERVER['REQUEST_METHOD'] !== 'POST') throw new \Exception('wrong request method');
-      $login = $_POST['login'];
-      $password = $_POST['password'];
+//      if ($_SERVER['REQUEST_METHOD'] !== 'POST') throw new \Exception('wrong request method');
+      if (!isset($_GET['login']) || !isset($_GET['password'])) throw new \Exception('missing parameters');
+      $login = $_GET['login'];
+      $password = $_GET['password'];
+//      $login = $_POST['login'];
+//      $password = $_POST['password'];
       Auth::login($login, $password);
+      echo 'Logged in! Hi, ' . $user->name;
     }
   }
 }

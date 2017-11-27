@@ -10,12 +10,13 @@ enqueue_style('login');
 
 <div>
   <h1>Login Page</h1>
-  <form method="POST" action="<?= web('/api') ?>">
+  <form method="GET" action="<?= web('/api/login') ?>">
     <label>
-      Phone: <input type="text" name="phone">
+      Phone: <input type="text" name="login">
     </label>
     <label>
       Password: <input type="password" name="password">
     </label>
+    <input type="submit">
   </form>
 </div>

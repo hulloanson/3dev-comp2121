@@ -72,16 +72,12 @@ class ModelTest extends TestCase
     global $test_models;
     $saved_ins = [];
     $error = false;
-    try {
-      foreach ($test_models as $model => $values) {
-        $id = $saved_ids[strtolower($model) . '_id'];
-        $ins = $model::find($id);
-        if ($ins === null || intval($ins->id) !== $id)
-          throw new \Exception('Invalid instance');
-        $saved_ins[$model] = $ins;
-      }
-    } catch (\Exception $e) {
-      $error = true;
+    foreach ($test_models as $model => $values) {
+      $id = $saved_ids[strtolower($model) . '_id'];
+      $ins = $model::find($id);
+      if ($ins === null || $ins->id !== $id)
+        throw new \Exception("Invalid instance of ${model}, id " . var_export($id, true) . ':'. var_export($ins, true));
+      $saved_ins[$model] = $ins;
     }
     $this->assertNotTrue($error);
     return $saved_ins;
@@ -103,7 +99,8 @@ class ModelTest extends TestCase
   /**
    * @depends test_fetch
    */
-  public function test_relation_fail($saved_ins) {
+  public function test_relation_fail($saved_ins)
+  {
     $session = $saved_ins['WishList']->session;
     $this->assertNull($session);
   }
@@ -111,7 +108,8 @@ class ModelTest extends TestCase
   /**
    * @depends test_fetch
    */
-  public function test_belongs_to($saved_ins) {
+  public function test_belongs_to($saved_ins)
+  {
     $user = $saved_ins['WishList']->user;
     $this->assertNotNull($user);
     $this->assertNotEmpty($user);
