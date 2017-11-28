@@ -28,19 +28,45 @@ $greetings = ($user === null ? '<a href="' . web('login') .'">Not logged in</a>'
   <?php echo $styles; ?>
 </head>
 <body>
-<!--<header>-->
-<!--  <span class="title">Snacks in Time</span>-->
-<!--  <span >--><?//= $greetings?><!--</span>-->
-<!--</header>-->
-<header data-am-widget="header" class="am-header  am-header-default am-header-fixed header">
+<header data-am-widget="header" class="am-header am-header-default am-header-fixed header">
   <div class="am-header-left am-header-nav">
     <a href="#left-link" class="">
       <i class="am-header-icon am-icon-angle-left"></i>
     </a>
+    <!--    Keep this. strange work around for topped links-->
+    <a></a>
   </div>
   <h1 class="am-header-title"> <a href="<?= web('/') ?>" class="" style="color: #333;">WhatSnacks</a></h1>
   <div class="am-header-right am-header-nav">
     <a href="#right-link" class=""> </a>
+    <!--    Keep this. strange work around for topped links-->
+    <a></a>
   </div>
 </header>
+<!--<header data-am-widget="header"-->
+<!--        class="am-header am-header-default am-header-fixed">-->
+<!--  <div class="am-header-left am-header-nav">-->
+<!--    <a href="#left-link" class="">-->
+<!---->
+<!--      <i class="am-header-icon am-icon-home"></i>-->
+<!--    </a>-->
+<!--    <a>-->
+<!--    </a>-->
+<!--  </div>-->
+<!---->
+<!--  <h1 class="am-header-title">-->
+<!--    WhatSnacks-->
+<!--  </h1>-->
+<!---->
+<!--  <div class="am-header-right am-header-nav">-->
+<!--    <a href="#user-link" class="">-->
+<!---->
+<!--      <i class="am-header-icon am-icon-user"></i>-->
+<!--    </a>-->
+<!--    <a href="#cart-link" class="">-->
+<!---->
+<!--      <i class="am-header-icon am-icon-shopping-cart"></i>-->
+<!--    </a>-->
+<!--  </div>-->
+<!--</header>-->
 <div class="snacks-content">

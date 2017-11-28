@@ -5,9 +5,7 @@
   src: url("../fonts/Eczar-Regular.woff") format("woff");
 }
 * {
-  box-sizing: border-box;
   font-family: 'snacks', serif !important;
-  line-height: 2;
 }
 .snacks-content {
   margin-bottom: 49px;
