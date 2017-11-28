@@ -1,0 +1,6 @@
+.nav {
+    /*border-bottom: 1px grey solid;*/
+}
+.nav li p.nav-title {
+    font-size: 1.1rem;
+}

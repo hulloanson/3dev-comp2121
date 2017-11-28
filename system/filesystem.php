@@ -30,9 +30,18 @@ function public_url(...$paths) {
  * @param string $page_name Page name as listed in page_dir directory without the extension
  * @return string Full path from the root of file system to the requested page
  */
-function page($page_name) {
+function page($page_name, $subpage = '') {
   $page_path = app(get_config('view', 'page_dir'), "${page_name}.php" );
-  return is_file($page_path) ? $page_path : get_404();
+  if (is_file($page_path)) {
+    return $page_path;
+  } else {
+    $page_dir = is_dir(app(get_config('view', 'page_dir'), $page_name));
+    if (!is_dir($page_dir)) return get_404();
+    if ($subpage === '') {
+      $subpage_path = path_join($page_dir, "${subpage}.php");
+      
+    }
+  }
 }
 
 function script($script) {

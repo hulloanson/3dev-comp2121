@@ -209,7 +209,9 @@ phpunit.phar
 
 .htaccess
 /test.*
-/css/*
-!/css/font-awesome.css
-!/css/font-config.css
+/scss
+#/css/*
+#!/css/font-awesome.css
+#!/css/font-config.css
+#!/css/amazeui.min.css
 

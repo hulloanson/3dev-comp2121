@@ -38,4 +38,8 @@ class Auth
     $user = $session->user;
     return true;
   }
+
+  public static function register($username, $password) {
+    echo $username . $password;
+  }
 }
