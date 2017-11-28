@@ -42,8 +42,8 @@ enqueue_script('home');
   </nav>
 </div>
 <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-gallery-default product">
-  <li>
-    <div class="am-gallery-item">
+  <li class="am-gallery-item am-padding-sm" >
+    <div>
       <a href="detail.html" class="">
         <img src="<?= image('p.png') ?>"  alt=""/>
         <h3 class="am-gallery-title">Hawthorn Ice-sugar Gourd</h3>
@@ -53,8 +53,8 @@ enqueue_script('home');
       </a>
     </div>
   </li>
-  <li>
-    <div class="am-gallery-item">
+  <li class="am-gallery-item am-padding-sm" >
+    <div>
       <a href="detail.html" class="">
         <img src="<?= image('p1.png') ?>"  alt=""/>
         <h3 class="am-gallery-title">"Fuji Lollipops</h3>
@@ -64,8 +64,8 @@ enqueue_script('home');
       </a>
     </div>
   </li>
-  <li>
-    <div class="am-gallery-item">
+  <li class="am-gallery-item am-padding-sm" >
+    <div>
       <a href="detail.html" class="">
         <img src="<?= image('p2.png') ?>"  alt=""/>
         <h3 class="am-gallery-title">White Rabbit Toffee</h3>
@@ -75,8 +75,8 @@ enqueue_script('home');
       </a>
     </div>
   </li>
-  <li>
-    <div class="am-gallery-item">
+  <li class="am-gallery-item am-padding-sm" >
+    <div>
       <a href="detail.html" class="">
         <img src="<?= image('p3.png') ?>"  alt=""/>
         <h3 class="am-gallery-title">Persimmon Cake</h3>

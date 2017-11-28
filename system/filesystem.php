@@ -31,17 +31,16 @@ function public_url(...$paths) {
  * @return string Full path from the root of file system to the requested page
  */
 function page($page_name, $subpage = '') {
-  $page_path = app(get_config('view', 'page_dir'), "${page_name}.php" );
-  if (is_file($page_path)) {
+  $page_path = app(get_config('view', 'page_dir'), $page_name );
+  if (is_dir($page_path)) {
+    $page_path = ($subpage === '' ?
+      path_join($page_path, 'index.php') : path_join($page_path, "${subpage}.php")
+    );
+    if (is_file($page_path)) return $page_path;
+  } else if (is_file($page_path = "${page_path}.php")) {
     return $page_path;
-  } else {
-    $page_dir = is_dir(app(get_config('view', 'page_dir'), $page_name));
-    if (!is_dir($page_dir)) return get_404();
-    if ($subpage === '') {
-      $subpage_path = path_join($page_dir, "${subpage}.php");
-      
-    }
   }
+  return get_404();
 }
 
 function script($script) {
@@ -55,6 +54,7 @@ function style($style) {
 }
 
 function image($image) {
-  $image_path = path_join('/', get_config('view', 'image_dir'), "${image}");
-  return is_file(app($image_path)) ? web($image_path) : '';
+  $image_dir = get_config('view', 'image_dir');
+  $image_path = path_join('/', $image_dir, "${image}");
+  return is_file(app($image_path)) ? web($image_path) : web(path_join($image_dir, 'image_not_found.png'));
 }

@@ -19,7 +19,7 @@ class View
     global $req;
     $page = empty($req) || empty($req[0]) ? 'home' : $req[0];
     ob_start();
-    include page($page);
+    include page($page, isset($req[1]) ? $req[1] : '');
     $this->page_content .= ob_get_contents();
     ob_end_clean();
     $this->style_tags();
