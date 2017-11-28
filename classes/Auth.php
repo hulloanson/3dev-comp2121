@@ -26,19 +26,16 @@ class Auth
     $session_id = (new Session([
       'user_id' => $user->id
     ]))->save();
-    setcookie('SNACKSESS', $session_id);
+    setcookie('SNACKSESS', $session_id, time()+60*60*24*7, web('/'));
   }
 
-  public static function session_login($session_id) {
+  public static function session_login() {
     global $user;
-    if (($session = Session::find($session_id)) === null) throw new \Exception('session not found');
+    if (!isset($_COOKIE['SNACKSESS'])) return false; // TODO: determine whether session_login needs to return sth
+    if (($session = Session::find($_COOKIE['SNACKSESS'])) === null) throw new \Exception('session not found');
     if (!($user = $session->user) instanceof User) throw new \Exception('missing user in session');
     if (($session->expired())) throw new \Exception('session expired');
     $user = $session->user;
     return true;
-  }
-
-  public static function init_session() {
-    session_start();
   }
 }

@@ -6,14 +6,15 @@ function checkError() {
     exit
   fi
 }
+
 login=$1
 remote_dir=$2
 key=$3
 archive_name='comp2121-proj.tgz'
 proj_dir=$PWD
 proj_dir_name=` basename ${proj_dir} `
-
 cd ../
+
 if [[ -f ${archive_name} ]]; then rm ${archive_name}; fi
 tar --exclude-vcs -czf ${archive_name} ` basename ${proj_dir} `
 checkError

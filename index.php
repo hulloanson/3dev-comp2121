@@ -34,6 +34,7 @@ try {
   // Load user, if any
   // TODO: load user as top-level object on start
   $user = null;
+  Auth::session_login();
   if (isset($req[0]) && strtolower($req[0]) == 'api') {
     (new APIHandler)->handle();
   } else {
