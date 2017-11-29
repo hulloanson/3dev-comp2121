@@ -4,26 +4,35 @@
  * Date: 10/11/2017
  * Time: 1:16 AM
  */
+
 namespace API;
 
 class APIBase
 {
   // TODO: redirect to 404 when action not found. Do the same with pages.
-  function indexAction() {
+  function indexAction()
+  {
     echo 'This is the parent API page. Please override.';
   }
 
-  protected static function sendJson($data) {
+  protected static function sendJson($data, $err)
+  {
     header('Content-Type: Application/JSON');
-    echo json_encode($data);
+    $response = ['result' => $err ? 'err' : 'ok'];
+    if ($data !== null) {
+      $response['data'] = $data;
+    }
+    echo json_encode($response);
     exit;
   }
 
-  protected static function sendOK($data = null) {
-    $json_res = ['result' => 'OK'];
-    if ($data !== null) {
-      $json_res['data'] = $data;
-    }
-    self::sendJson($json_res);
+  protected static function sendOK($data = null)
+  {
+    self::sendJson($data, false);
+  }
+
+  protected static function sendError($data = null)
+  {
+    self::sendJson($data, true);
   }
 }

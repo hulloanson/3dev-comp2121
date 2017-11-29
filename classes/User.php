@@ -2,8 +2,9 @@
 
 class User extends Model
 {
+  protected static $unique = ['username'];
 
-  public static $has_many = [
+  protected static $has_many = [
     'sales' => 'Sales',
     'cart' => 'ShoppingCart'
   ];
@@ -12,14 +13,6 @@ class User extends Model
   {
     if ($name === 'password') $value = password_hash($value, PASSWORD_DEFAULT);
     parent::__set($name, $value);
-  }
-
-  protected function pre_save()
-  {
-    if ($this->email && !$this->id) { // If it's a new user
-      if (self::email_dup($this->email))
-        throw new \Exception('new user dup email');
-    }
   }
 
   public static function email_dup($email)

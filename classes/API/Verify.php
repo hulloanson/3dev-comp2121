@@ -15,7 +15,15 @@ class Verify extends APIBase
     http_send_status(404);
   }
 
-  function email() {
-//    if (isset($_POST['email']))
+  function username() {
+    try {
+      if (!isset($_POST['username'])) {
+        throw new \Exception('invalid data');
+      }
+      if (!empty(\User::search(['username' => $_POST['username']]))) throw new \Exception('dup');
+      self::sendOK();
+    } catch (\Exception $e) {
+      self::sendError($e->getMessage());
+    }
   }
 }

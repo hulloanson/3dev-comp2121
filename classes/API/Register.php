@@ -26,9 +26,7 @@ class Register extends APIBase
           'username' => $username
       ]);
     } catch (\Exception $e) {
-      self::sendJson([
-          'err' => $e->getMessage()
-      ]);
+      self::sendError($e->getMessage());
     }
   }
 }

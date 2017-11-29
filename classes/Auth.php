@@ -25,7 +25,7 @@ class Auth
     // Assign a session
     $session_id = (new Session([
       'user_id' => $user->id
-    ]))->save();
+    ]))->save(); // session_id is auto-generated
     setcookie('SNACKSESS', $session_id, time()+60*60*24*7, web('/'));
   }
 

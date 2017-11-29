@@ -22,17 +22,18 @@ require_once APP_ROOT . '/config/load.php';
 require_once APP_ROOT . '/system/load.php';
 
 try {
-  // Explode params by slash
+
   /**
    * @var array $req An array representing a GET request.
    * @var array $req[0] Page
    * @var array $req[1] Action on the specified page
    * @var array $req[2] Data on the action
    */
-  $req = isset($_REQUEST['param']) ? preg_split('/\\//', $_REQUEST['param'], -1,  PREG_SPLIT_NO_EMPTY) : [];
-  $res = [];
+  $req = isset($_REQUEST['param']) ?
+      preg_split('/\\//', $_REQUEST['param'], -1,  PREG_SPLIT_NO_EMPTY) // Explode param by slash
+      : [];
+  $res = []; // TODO: determine whether $res is needed at all
   // Load user, if any
-  // TODO: load user as top-level object on start
   $user = null;
   Auth::session_login();
   if (isset($req[0]) && strtolower($req[0]) == 'api') {

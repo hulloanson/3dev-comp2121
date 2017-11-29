@@ -19,9 +19,11 @@ class Model
 
   protected static $props = [];
 
-  public static $has_many = [];
+  protected static $unique = [];
 
-  public static $belongs_to = [];
+  protected static $has_many = [];
+
+  protected static $belongs_to = [];
 
   protected $exists = false;
 
@@ -56,9 +58,20 @@ class Model
     $this->data[$name] = $value;
   }
 
+  private function model_pre_save() {
+    foreach(static::$unique as $unique) {
+      if ($this->$unique === null) continue;
+      if (($ins = static::search([$unique => $this->$unique ], true)) !== null
+          && $ins->${static::$id_name} != $this->${static::$id_name}) { // TODO: check id is string problem
+        throw new \Exception('duplicate attribute');
+      }
+    }
+  }
+
   protected function pre_save() {}
 
   public function save() {
+    $this->model_pre_save();
     $this->pre_save();
     if (empty($this->data)) throw new \Exception('Attempted to save an empty model');
     $cols = '(';

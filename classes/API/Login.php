@@ -32,9 +32,7 @@ class Login extends APIBase
           'username' => $user->username
       ]);
     } catch (\Exception $e) {
-      self::sendJson([
-          'err' => $e->getMessage()
-      ]);
+      self::sendError($e->getMessage());
     }
   }
 }
