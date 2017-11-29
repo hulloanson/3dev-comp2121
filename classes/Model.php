@@ -149,4 +149,10 @@ class Model
     return $result;
   }
 
+  public function delete() {
+    PDOHelper::exec('delete from ' . static::$table . ' where ' . static::$id_name . ' = :id',
+        [':id' => static::$id_name]
+    );
+  }
+
 }

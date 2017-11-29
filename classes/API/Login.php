@@ -15,27 +15,26 @@ class Login extends APIBase
 {
   function indexAction()
   {
-    global $user;
-    if (Auth::logged_in()) {
-      //
-      header('Location: ' . web('/'));
+    try {
+      if (\Auth::logged_in()) {
+        throw new \Exception('logged in');
+      }
+      if (isset($_COOKIE['SNACKSESS'])) {
+        Auth::session_login();
+      } else {
+        if (!isset($_POST['username']) || !isset($_POST['password'])) {
+          throw new \Exception('invalid data');
+        }
+        Auth::login($_POST['username'], $_POST['password']);
+      }
+      global $user;
+      self::sendOK([
+          'username' => $user->username
+      ]);
+    } catch (\Exception $e) {
+      self::sendJson([
+          'err' => $e->getMessage()
+      ]);
     }
-    if ($user instanceof User) {
-      echo 'Logged in! Welcome, ' . $user->name;
-      return;
-    } else if (isset($_COOKIE['SNACKSESS'])) {
-      Auth::session_login();
-      echo 'Welcome back, ' . $user->name;
-    } else {
-      // Find user
-//      if ($_SERVER['REQUEST_METHOD'] !== 'POST') throw new \Exception('wrong request method');
-      $login = $_GET['login'];
-      $password = $_GET['password'];
-//      $login = $_POST['login'];
-//      $password = $_POST['password'];
-      Auth::login($login, $password);
-      echo 'Logged in! Hi, ' . $user->name;
-    }
-    redirect('/');
   }
 }

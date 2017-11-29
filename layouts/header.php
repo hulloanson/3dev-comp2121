@@ -33,13 +33,13 @@ $greetings = ($user === null ? '<a href="' . web('login') .'">Not logged in</a>'
     <a href="#left-link" class="">
       <i class="am-header-icon am-icon-angle-left"></i>
     </a>
-    <!--    Keep this. strange work around for topped links-->
+    <!--    Keep this. strange workaround for topped links-->
     <a></a>
   </div>
   <h1 class="am-header-title"> <a href="<?= web('/') ?>" class="" style="color: #333;">WhatSnacks</a></h1>
   <div class="am-header-right am-header-nav">
     <a href="#right-link" class=""> </a>
-    <!--    Keep this. strange work around for topped links-->
+    <!--    Keep this. strange workaround for topped links-->
     <a></a>
   </div>
 </header>

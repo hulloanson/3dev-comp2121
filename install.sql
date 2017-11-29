@@ -4,9 +4,8 @@ USE `snacks`;
 
 CREATE TABLE IF NOT EXISTS `user` (
   `id`       INT UNIQUE PRIMARY KEY AUTO_INCREMENT NOT NULL,
-  `name`     VARCHAR(255)                          NOT NULL,
   `password` VARCHAR(255)                          NOT NULL,
-  `email`    VARCHAR(191) UNIQUE                   NOT NULL
+  `username`    VARCHAR(191) UNIQUE                   NOT NULL
 )
   ENGINE = InnoDB;
 

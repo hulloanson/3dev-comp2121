@@ -12,9 +12,9 @@ class Auth
     return $user !== null;
   }
 
-  public static function login($email, $password) {
+  public static function login($username, $password) {
     if (self::logged_in()) return;
-    if (($incomingUser = User::search([ 'email' => $email ], true)) === null) {
+    if (($incomingUser = User::search([ 'username' => $username ], true)) === null) {
       throw new \Exception('user not found');
     }
     if (password_verify($password, $incomingUser->password)) {
@@ -31,6 +31,7 @@ class Auth
 
   public static function session_login() {
     global $user;
+    global $session;
     if (!isset($_COOKIE['SNACKSESS'])) return false; // TODO: determine whether session_login needs to return sth
     if (($session = Session::find($_COOKIE['SNACKSESS'])) === null) throw new \Exception('session not found');
     if (!($user = $session->user) instanceof User) throw new \Exception('missing user in session');
@@ -40,6 +41,21 @@ class Auth
   }
 
   public static function register($username, $password) {
-    echo $username . $password;
+    $new_user = new User;
+    $new_user->username = $username;
+    $new_user->password = $password;
+    $new_user->save();
+    global $user;
+    $user = $new_user;
   }
+
+  public static function logout() {
+    global $session;
+    global $user;
+    if (!self::logged_in()) return;
+    setcookie('SNACKSESS', null, 1);
+    $session->delete();
+    $session = $user = null;
+  }
+
 }

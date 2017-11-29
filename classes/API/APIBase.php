@@ -12,4 +12,18 @@ class APIBase
   function indexAction() {
     echo 'This is the parent API page. Please override.';
   }
+
+  protected static function sendJson($data) {
+    header('Content-Type: Application/JSON');
+    echo json_encode($data);
+    exit;
+  }
+
+  protected static function sendOK($data = null) {
+    $json_res = ['result' => 'OK'];
+    if ($data !== null) {
+      $json_res['data'] = $data;
+    }
+    self::sendJson($json_res);
+  }
 }
