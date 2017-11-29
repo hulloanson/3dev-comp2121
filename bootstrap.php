@@ -1,10 +1,10 @@
 <?php
-register_shutdown_function( function() {
-  $error = error_get_last();
-  if( $error !== NULL) {
-    echo 'Hell!';
-  }
-});
+//register_shutdown_function( function() {
+//  $error = error_get_last();
+//  if( $error !== NULL) {
+//    echo 'Hell!';
+//  }
+//});
 
 /* Constants */
 define('APP_ROOT', __DIR__);

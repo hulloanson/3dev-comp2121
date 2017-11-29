@@ -16,7 +16,7 @@ class User extends Model
 
   protected function pre_save()
   {
-    if ($this->email && !$this->id) {
+    if ($this->email && !$this->id) { // If it's a new user
       if (self::email_dup($this->email))
         throw new \Exception('new user dup email');
     }

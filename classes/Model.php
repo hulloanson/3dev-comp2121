@@ -37,8 +37,7 @@ class Model
   public function __get($name) {
     if (!isset($this->data[$name])) {
       // Search relationships
-      $in_has_many = $in_belongs_to = false;
-      if (!($in_has_many = isset(static::$has_many[$name])) && !($in_belongs_to = isset(static::$belongs_to[$name]))) {
+      if (!($in_has_many = isset(static::$has_many[$name])) && !isset(static::$belongs_to[$name])) {
         return null;
       } else if ($in_has_many) {
         $self_table = static::get_table();
