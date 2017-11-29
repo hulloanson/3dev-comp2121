@@ -23,6 +23,8 @@ class Model
 
   protected static $has_many = [];
 
+  protected static $has_many_through = [];
+
   protected static $belongs_to = [];
 
   protected $exists = false;

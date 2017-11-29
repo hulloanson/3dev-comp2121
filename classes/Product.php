@@ -8,14 +8,22 @@
 class Product extends Model
 {
   public static $has_many = [
-    'tags' => 'ProductTag',
+      'tags' => 'ProductTag',
   ];
 
-  public function add_tag($tag) {
+  public static $has_many_through = [
+      'tags' => [
+          'through' => 'product_tag',
+          'model' => 'Tag'
+      ]
+  ];
+
+  public function add_tag($tag)
+  {
     if ($this->id === null) throw new \Exception('Adding tag before saving product is not allowed.');
     (new ProductTag([
-      'product_id' => $this->id,
-      'tag' => $tag
+        'product_id' => $this->id,
+        'tag' => $tag
     ]))->save();
   }
 }
