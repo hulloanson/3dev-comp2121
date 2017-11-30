@@ -8,6 +8,7 @@
 class ProductTag extends Model
 {
   public static $belongs_to = [
-    'product' => 'Product'
+    'product' => 'Product',
+    'tag' => 'Tag'
   ];
 }

@@ -7,13 +7,9 @@
 
 class Product extends Model
 {
-  public static $has_many = [
-      'tags' => 'ProductTag',
-  ];
-
   public static $has_many_through = [
       'tags' => [
-          'through' => 'product_tag',
+          'through' => 'ProductTag',
           'model' => 'Tag'
       ]
   ];
